@@ -1,0 +1,142 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model choices {
+  id                 Int                @id @default(autoincrement())
+  content            String             @db.Text
+  iscorrect          Boolean
+  question           Int
+  createdAt          DateTime           @default(now())
+  question_to_choice question_to_choice @relation(fields: [question], references: [id], onDelete: Cascade, map: "choices_ibfk_1")
+  user_choice        user_choice[]
+
+  @@index([question], map: "question")
+}
+
+model levels {
+  id          Int     @id @default(autoincrement())
+  designation String  @unique(map: "designation") @db.VarChar(10)
+  slug        String  @unique(map: "slug") @db.VarChar(10)
+  tests       tests[]
+  users       users[]
+}
+
+model question_to_answer {
+  id          Int           @id @default(autoincrement())
+  content     String        @db.Text
+  test        Int
+  createdAt   DateTime      @default(now())
+  tests       tests         @relation(fields: [test], references: [id], onDelete: Cascade, map: "question_to_answer_ibfk_1")
+  user_answer user_answer[]
+
+  @@index([test], map: "test")
+}
+
+model question_to_choice {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.Text
+  test      Int
+  createdAt DateTime  @default(now())
+  tests     tests     @relation(fields: [test], references: [id], onDelete: Cascade, map: "question_to_choice_ibfk_1")
+  choices   choices[]
+
+  @@index([test], map: "test")
+}
+
+model tests {
+  id                 Int                  @id
+  designation        String               @db.VarChar(100)
+  slug               String               @unique(map: "slug") @db.VarChar(100)
+  subject            String               @db.VarChar(100)
+  yeartest           String               @db.VarChar(4)
+  duration           Int
+  datetest           DateTime             @db.DateTime(0)
+  level              Int
+  user               Int
+  createdAt          DateTime             @default(now())
+  users              users                @relation(fields: [user], references: [id], onDelete: Cascade, map: "tests_ibfk_1")
+  levels             levels               @relation(fields: [level], references: [id], onDelete: Cascade, map: "tests_ibfk_2")
+  question_to_answer question_to_answer[]
+  question_to_choice question_to_choice[]
+  user_test          user_test[]
+
+  @@index([level], map: "level")
+  @@index([user], map: "user")
+}
+
+model user_answer {
+  id                 Int                @id @default(autoincrement())
+  content            String             @db.Text
+  iscorrect          Boolean
+  iscorrected        Boolean
+  question           Int
+  user               Int
+  createdAt          DateTime           @default(now())
+  users              users              @relation(fields: [user], references: [id], onDelete: Cascade, map: "user_answer_ibfk_1")
+  question_to_answer question_to_answer @relation(fields: [question], references: [id], onDelete: Cascade, map: "user_answer_ibfk_2")
+
+  @@index([question], map: "test")
+  @@index([user], map: "user")
+}
+
+model user_choice {
+  id        Int      @id @default(autoincrement())
+  user      Int
+  choice    Int
+  createdAt DateTime @default(now())
+  choices   choices  @relation(fields: [choice], references: [id], onDelete: Cascade, map: "user_choice_ibfk_1")
+  users     users    @relation(fields: [user], references: [id], onDelete: Cascade, map: "user_choice_ibfk_2")
+
+  @@index([choice], map: "choice")
+  @@index([user], map: "user")
+}
+
+model user_role {
+  id    Int     @id @default(autoincrement())
+  role  String  @db.VarChar(20)
+  users users[]
+}
+
+model user_test {
+  id         Int      @id @default(autoincrement())
+  user       Int
+  test       Int
+  isfinished Boolean
+  createdAt  DateTime @default(now())
+  users      users    @relation(fields: [user], references: [id], onDelete: Cascade, map: "user_test_ibfk_1")
+  tests      tests    @relation(fields: [test], references: [id], onDelete: Cascade, map: "user_test_ibfk_2")
+
+  @@index([test], map: "test")
+  @@index([user], map: "user")
+}
+
+model users {
+  id                 Int           @id @default(autoincrement())
+  firstname          String        @db.VarChar(50)
+  lastname           String        @db.VarChar(50)
+  registrationnumber String        @unique(map: "registrationnumber") @db.VarChar(10)
+  slug               String        @unique(map: "slug") @db.VarChar(20)
+  phone              String        @unique(map: "phone") @db.VarChar(10)
+  email              String        @unique(map: "email") @db.VarChar(50)
+  password           String        @db.VarChar(255)
+  level              Int
+  isadmin            Boolean
+  role               Int
+  createdAt          DateTime      @default(now())
+  levels             levels        @relation(fields: [level], references: [id], onDelete: Cascade, map: "users_ibfk_1")
+  user_role          user_role     @relation(fields: [role], references: [id], onDelete: Cascade, map: "users_ibfk_2")
+  tests              tests[]
+  user_answer        user_answer[]
+  user_choice        user_choice[]
+  user_test          user_test[]
+
+  @@index([level], map: "level")
+  @@index([role], map: "role")
+}
