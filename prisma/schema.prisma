@@ -51,7 +51,7 @@ model question_to_choice {
 }
 
 model tests {
-  id                 Int                  @id
+  id                 Int                  @id @default(autoincrement())
   designation        String               @db.VarChar(100)
   slug               String               @unique(map: "slug") @db.VarChar(100)
   subject            String               @db.VarChar(100)

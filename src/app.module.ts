@@ -9,6 +9,9 @@ import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { SocketModule } from './socket/socket.module';
 import { LevelsModule } from './levels/levels.module';
+import { TestsModule } from './tests/tests.module';
+import { UserTestModule } from './user-test/user-test.module';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   controllers: [AppController],
@@ -20,6 +23,9 @@ import { LevelsModule } from './levels/levels.module';
     UsersModule,
     SocketModule,
     LevelsModule,
+    TestsModule,
+    UserTestModule,
+    QuestionsModule,
   ],
   providers: [
     {
