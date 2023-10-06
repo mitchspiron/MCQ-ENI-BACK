@@ -1,10 +1,10 @@
 {
-  "name": "Dandelions-NestJs",
+  "name": "MCQ-ENI-BACK",
   "version": "0.0.1",
   "description": "",
   "author": "Mitch Spiron",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "ENI",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
