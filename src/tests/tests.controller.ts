@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { TestsService } from './tests.service';
 import { GetTests, Tests } from './types';
-import { TestsDto } from './dto';
+import { SwitchIsDoneDto, SwitchIsVisibleDto, TestsDto } from './dto';
 
 @Controller('tests')
 export class TestsController {
@@ -37,6 +37,22 @@ export class TestsController {
     @Body() dto: TestsDto,
   ): Promise<GetTests> {
     return await this.testsService.updateTestsBySlug(slug, dto);
+  }
+
+  @Put('switch-isvisible/:slug')
+  async switchIsVisibleByTestsSlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchIsVisibleDto,
+  ): Promise<Tests> {
+    return await this.testsService.switchIsVisibleByTestsSlug(slug, dto);
+  }
+
+  @Put('switch-isdone/:slug')
+  async switchIsDoneByTestsSlug(
+    @Param('slug') slug: string,
+    @Body() dto: SwitchIsDoneDto,
+  ): Promise<Tests> {
+    return await this.testsService.switchIsDoneByTestsSlug(slug, dto);
   }
 
   @Delete('/:id')

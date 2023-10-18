@@ -58,6 +58,8 @@ model tests {
   yeartest           String               @db.VarChar(4)
   duration           Int
   datetest           DateTime             @db.DateTime(0)
+  isvisible          Boolean
+  isdone             Boolean
   level              Int
   user               Int
   createdAt          DateTime             @default(now())

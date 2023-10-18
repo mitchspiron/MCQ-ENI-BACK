@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class TestsDto {
   @IsNotEmpty()
@@ -25,4 +25,16 @@ export class TestsDto {
 
   @IsNotEmpty()
   user: never;
+}
+
+export class SwitchIsVisibleDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  isvisible: boolean;
+}
+
+export class SwitchIsDoneDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  isdone: boolean;
 }

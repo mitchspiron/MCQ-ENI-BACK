@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TestsDto } from './dto';
+import { SwitchIsDoneDto, SwitchIsVisibleDto, TestsDto } from './dto';
 import { GetTests, Tests } from './types';
 
 @Injectable()
@@ -20,6 +20,8 @@ export class TestsService {
         yeartest: true,
         duration: true,
         datetest: true,
+        isvisible: true,
+        isdone: true,
         levels: {
           select: {
             id: true,
@@ -59,6 +61,8 @@ export class TestsService {
         yeartest: true,
         duration: true,
         datetest: true,
+        isvisible: true,
+        isdone: true,
         levels: {
           select: {
             id: true,
@@ -146,6 +150,8 @@ export class TestsService {
         yeartest: dto.yeartest,
         duration: Number(dto.duration),
         datetest: new Date(dto.datetest),
+        isvisible: false,
+        isdone: false,
         level: Number(dto.level),
         user: Number(dto.user),
       },
@@ -233,6 +239,8 @@ export class TestsService {
           yeartest: true,
           duration: true,
           datetest: true,
+          isvisible: true,
+          isdone: true,
           levels: {
             select: {
               id: true,
@@ -270,6 +278,82 @@ export class TestsService {
     return await this.prisma.tests.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async switchIsVisibleByTestsSlug(
+    slug: string,
+    dto: SwitchIsVisibleDto,
+  ): Promise<Tests> {
+    const slugExists = await this.prisma.tests.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!slugExists) {
+      throw new ForbiddenException("Ce test n'existe pas!");
+    }
+
+    return await this.prisma.tests.update({
+      data: {
+        isvisible: dto.isvisible,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        designation: true,
+        slug: true,
+        subject: true,
+        yeartest: true,
+        duration: true,
+        datetest: true,
+        isvisible: true,
+        isdone: true,
+        level: true,
+        user: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  async switchIsDoneByTestsSlug(
+    slug: string,
+    dto: SwitchIsDoneDto,
+  ): Promise<Tests> {
+    const slugExists = await this.prisma.tests.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!slugExists) {
+      throw new ForbiddenException("Ce test n'existe pas!");
+    }
+
+    return await this.prisma.tests.update({
+      data: {
+        isdone: dto.isdone,
+      },
+      where: {
+        slug,
+      },
+      select: {
+        id: true,
+        designation: true,
+        slug: true,
+        subject: true,
+        yeartest: true,
+        duration: true,
+        datetest: true,
+        isvisible: true,
+        isdone: true,
+        level: true,
+        user: true,
+        createdAt: true,
       },
     });
   }

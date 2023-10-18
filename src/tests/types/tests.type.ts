@@ -6,6 +6,8 @@ export type Tests = {
   yeartest: string;
   duration: number;
   datetest: Date;
+  isvisible: boolean;
+  isdone: boolean;
   level: number;
   user: number;
   createdAt: Date;
@@ -19,6 +21,8 @@ export type GetTests = {
   yeartest: string;
   duration: number;
   datetest: Date;
+  isvisible: boolean;
+  isdone: boolean;
   levels: {
     id: number;
     designation: string;
