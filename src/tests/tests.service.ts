@@ -51,6 +51,64 @@ export class TestsService {
     return TestsBySlug;
   }
 
+  async getTestsByLevelsSlug(slug: string): Promise<GetTests[]> {
+    const slugExists = await this.prisma.levels.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (!slugExists) {
+      throw new ForbiddenException("Ce niveau d'étudiant n'existe pas!");
+    }
+
+    const Tests = await this.prisma.tests.findMany({
+      where: {
+        levels: {
+          slug,
+        },
+      },
+      select: {
+        id: true,
+        designation: true,
+        slug: true,
+        subject: true,
+        yeartest: true,
+        duration: true,
+        datetest: true,
+        isvisible: true,
+        isdone: true,
+        levels: {
+          select: {
+            id: true,
+            designation: true,
+          },
+        },
+        users: {
+          select: {
+            id: true,
+            firstname: true,
+            lastname: true,
+            user_role: {
+              select: {
+                id: true,
+                role: true,
+              },
+            },
+          },
+        },
+        createdAt: true,
+      },
+    });
+
+    if (Tests.length == 0)
+      throw new ForbiddenException(
+        "Il n'y a aucun test à prévoir pour ce niveau!",
+      );
+
+    return Tests;
+  }
+
   async getTests(): Promise<GetTests[]> {
     const tests = await this.prisma.tests.findMany({
       select: {

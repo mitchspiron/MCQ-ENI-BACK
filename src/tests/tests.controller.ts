@@ -26,6 +26,11 @@ export class TestsController {
     return await this.testsService.getTestsBySlug(slug);
   }
 
+  @Get('/levels/:slug')
+  async getTestsByLevelsSlug(@Param('slug') slug: string): Promise<GetTests[]> {
+    return await this.testsService.getTestsByLevelsSlug(slug);
+  }
+
   @Post()
   async createTests(@Body() dto: TestsDto): Promise<Tests> {
     return await this.testsService.createTests(dto);
