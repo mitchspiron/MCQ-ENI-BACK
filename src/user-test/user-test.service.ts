@@ -107,6 +107,18 @@ export class UserTestService {
       );
     }
 
+    const userTestExists = await this.prisma.user_test.findMany({
+      where: {
+        AND: [{ user: Number(dto.user) }, { test: Number(dto.test) }],
+      },
+    });
+
+    if (userTestExists.length !== 0) {
+      throw new ForbiddenException(
+        "Vous n'avez plus le droit de refaire ce test!",
+      );
+    }
+
     return await this.prisma.user_test.create({
       data: {
         user: Number(dto.user),
