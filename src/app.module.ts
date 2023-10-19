@@ -12,6 +12,7 @@ import { LevelsModule } from './levels/levels.module';
 import { TestsModule } from './tests/tests.module';
 import { UserTestModule } from './user-test/user-test.module';
 import { QuestionsModule } from './questions/questions.module';
+import { UserAnswerModule } from './user-answer/user-answer.module';
 
 @Module({
   controllers: [AppController],
@@ -26,6 +27,7 @@ import { QuestionsModule } from './questions/questions.module';
     TestsModule,
     UserTestModule,
     QuestionsModule,
+    UserAnswerModule,
   ],
   providers: [
     {
