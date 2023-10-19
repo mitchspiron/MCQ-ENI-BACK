@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UserTestService } from './user-test.service';
 import { GetUserTest, UserTest } from './types';
 import { UserTestDto } from './dto';
@@ -22,7 +30,7 @@ export class UserTestController {
   @Put('/:slug/:user')
   async updateUserTestState(
     @Param('slug') slug: string,
-    @Param('user') user: number,
+    @Param('user', ParseIntPipe) user: number,
   ): Promise<UserTest> {
     return await this.userTestService.updateUserTestState(slug, user);
   }
