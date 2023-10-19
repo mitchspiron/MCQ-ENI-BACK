@@ -140,10 +140,24 @@ export class UserAnswerService {
       where: {
         id: Number(dto.question),
       },
+      select: {
+        tests: {
+          select: {
+            id: true,
+            level: true,
+          },
+        },
+      },
     });
 
     if (!questionExists) {
       throw new ForbiddenException("Cette question n'existe pas!");
+    }
+
+    if (userExists.level !== questionExists.tests.level) {
+      throw new ForbiddenException(
+        "Votre niveau n'est pas autorisé à passer ce test!",
+      );
     }
 
     const userAnswerExists = await this.prisma.user_answer.findMany({

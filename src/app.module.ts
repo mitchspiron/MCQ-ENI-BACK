@@ -13,6 +13,7 @@ import { TestsModule } from './tests/tests.module';
 import { UserTestModule } from './user-test/user-test.module';
 import { QuestionsModule } from './questions/questions.module';
 import { UserAnswerModule } from './user-answer/user-answer.module';
+import { UserChoiceModule } from './user-choice/user-choice.module';
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { UserAnswerModule } from './user-answer/user-answer.module';
     UserTestModule,
     QuestionsModule,
     UserAnswerModule,
+    UserChoiceModule,
   ],
   providers: [
     {
