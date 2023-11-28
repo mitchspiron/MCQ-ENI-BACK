@@ -37,26 +37,17 @@ async function bootstrap() {
       },
     }),
   );
-  app.use(flash({ sessionKeyName: 'flashMessage' }));
 
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', process.env.URL_FRONT);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
-    );
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
+  app.use(flash({ sessionKeyName: 'flashMessage' }));
 
   app.enableCors({
     allowedHeaders:
       'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
-    origin: process.env.URL_FRONT,
+    origin: process.env.URL_FRONT || '*', // or true
+    credentials: true, // If your application allows credentials
   });
 
   await app.listen(process.env.PORT);
-  console.log('🚀 Server started at' + process.env.URL_BACK);
+  console.log('🚀 Server started at ' + process.env.URL_BACK);
 }
 bootstrap();
