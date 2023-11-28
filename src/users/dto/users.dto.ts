@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UsersDto {
   @IsNotEmpty()
@@ -69,9 +69,11 @@ export class UsersPasswordDto {
 }
 
 export class FilterUsersDto {
+  @IsOptional()
   @IsString()
   searchkey: string;
 
+  @IsOptional()
   @IsString()
-  searchRole: string;
+  searchRole?: string;
 }
