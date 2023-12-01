@@ -32,6 +32,11 @@ export class UsersController {
   }
 
   @Post()
+  async createUsers(@Body() dto: UsersDto): Promise<UsersCreate> {
+    return await this.usersService.createUsers(dto);
+  }
+
+  @Post('/filter')
   async getUsersByRole(@Body() dto: FilterUsersDto): Promise<Users[]> {
     return await this.usersService.filterUsers(dto);
   }
@@ -39,11 +44,6 @@ export class UsersController {
   @Get('/:slug')
   async getUsersBySlug(@Param('slug') slug: string): Promise<Users> {
     return await this.usersService.getUserBySlug(slug);
-  }
-
-  @Post()
-  async createUsers(@Body() dto: UsersDto): Promise<UsersCreate> {
-    return await this.usersService.createUsers(dto);
   }
 
   @Put('/info/:slug')
