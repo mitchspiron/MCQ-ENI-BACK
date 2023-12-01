@@ -25,10 +25,10 @@ export class UsersDto {
   password: string;
 
   @IsNotEmpty()
-  level: number;
+  level: number | string;
 
   @IsNotEmpty()
-  role: number;
+  role: number | string;
 }
 
 export class UsersInfoDto {
@@ -52,10 +52,10 @@ export class UsersInfoDto {
   email: string;
 
   @IsNotEmpty()
-  level: number;
+  level: number | string;
 
   @IsNotEmpty()
-  role: number;
+  role: number | string;
 }
 
 export class UsersPasswordDto {
