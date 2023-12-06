@@ -1,11 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  FilterUsersDto,
-  UsersDto,
-  UsersInfoDto,
-  UsersPasswordDto,
-} from './dto';
+import { UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
 import {
   Users,
   UsersCreate,
@@ -85,72 +80,6 @@ export class UsersService {
         createdAt: true,
       },
     });
-
-    if (users.length == 0) {
-      throw new ForbiddenException("Il n'y a aucun utilisateur!");
-    }
-    return users;
-  }
-
-  async filterUsers(dto: FilterUsersDto): Promise<Users[]> {
-    let users = [];
-
-    if (dto.searchkey) {
-      users = await this.prisma.users.findMany({
-        where: {
-          OR: [
-            { firstname: { contains: dto.searchkey } },
-            { lastname: { contains: dto.searchkey } },
-            { registrationnumber: { contains: dto.searchkey } },
-            { slug: { contains: dto.searchkey } },
-            { phone: { contains: dto.searchkey } },
-            { email: { contains: dto.searchkey } },
-          ],
-        },
-        orderBy: { id: 'desc' },
-        select: {
-          id: true,
-          firstname: true,
-          lastname: true,
-          registrationnumber: true,
-          slug: true,
-          phone: true,
-          email: true,
-          password: true,
-          levels: { select: { id: true, designation: true } },
-          isadmin: true,
-          user_role: { select: { id: true, role: true } },
-          createdAt: true,
-        },
-      });
-    } else if (dto.searchRole) {
-      users = await this.prisma.users.findMany({
-        where: {
-          user_role: {
-            role: { contains: dto.searchRole },
-          },
-        },
-        orderBy: { id: 'desc' },
-        select: {
-          id: true,
-          firstname: true,
-          lastname: true,
-          registrationnumber: true,
-          slug: true,
-          phone: true,
-          email: true,
-          password: true,
-          levels: { select: { id: true, designation: true } },
-          isadmin: true,
-          user_role: { select: { id: true, role: true } },
-          createdAt: true,
-        },
-      });
-    } else {
-      throw new ForbiddenException(
-        'Please provide either searchkey or searchRole',
-      );
-    }
 
     if (users.length == 0) {
       throw new ForbiddenException("Il n'y a aucun utilisateur!");
@@ -276,7 +205,7 @@ export class UsersService {
         },
       });
 
-      if (userPhone && (userPhone.slug !== slug))
+      if (userPhone && userPhone.slug !== slug)
         throw new ForbiddenException(
           'Ce numéro de téléphone appartient déjà à un utilisateur',
         );
@@ -287,7 +216,7 @@ export class UsersService {
         },
       });
 
-      if (userEmail && (userEmail.slug !== slug))
+      if (userEmail && userEmail.slug !== slug)
         throw new ForbiddenException(
           'Cet email appartient déjà à un utilisateur',
         );

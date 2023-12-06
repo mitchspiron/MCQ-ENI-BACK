@@ -8,12 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import {
-  FilterUsersDto,
-  UsersDto,
-  UsersInfoDto,
-  UsersPasswordDto,
-} from './dto';
+import { UsersDto, UsersInfoDto, UsersPasswordDto } from './dto';
 import {
   Users,
   UsersCreate,
@@ -31,19 +26,14 @@ export class UsersController {
     return await this.usersService.getUsers();
   }
 
-  @Post()
-  async createUsers(@Body() dto: UsersDto): Promise<UsersCreate> {
-    return await this.usersService.createUsers(dto);
-  }
-
-  @Post('/filter')
-  async getUsersByRole(@Body() dto: FilterUsersDto): Promise<Users[]> {
-    return await this.usersService.filterUsers(dto);
-  }
-
   @Get('/:slug')
   async getUsersBySlug(@Param('slug') slug: string): Promise<Users> {
     return await this.usersService.getUserBySlug(slug);
+  }
+
+  @Post()
+  async createUsers(@Body() dto: UsersDto): Promise<UsersCreate> {
+    return await this.usersService.createUsers(dto);
   }
 
   @Put('/info/:slug')
