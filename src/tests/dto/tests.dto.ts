@@ -15,7 +15,7 @@ export class TestsDto {
 
   @IsNotEmpty()
   @IsNumber()
-  duration: number;
+  duration: number | string;
 
   @IsNotEmpty()
   datetest: Date;

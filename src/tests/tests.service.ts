@@ -194,7 +194,7 @@ export class TestsService {
       throw new ForbiddenException("Cet utilisateur n'existe pas!");
     }
 
-    if (userExists.user_role.role !== 'professor') {
+    if (userExists.user_role.role !== 'teacher') {
       throw new ForbiddenException(
         "Cet utilisateur n'est pas habilité à créer un test!",
       );
@@ -269,7 +269,7 @@ export class TestsService {
         throw new ForbiddenException("Cet utilisateur n'existe pas!");
       }
 
-      if (userExists.user_role.role !== 'professor') {
+      if (userExists.user_role.role !== 'teacher') {
         throw new ForbiddenException(
           "Cet utilisateur n'est pas habilité à créer un test!",
         );

@@ -153,7 +153,7 @@ export class UsersService {
     }
 
     if (users.length == 0) {
-      throw new ForbiddenException("Il n'y a aucun utilisateur!");
+      return [];
     }
     return users;
   }
