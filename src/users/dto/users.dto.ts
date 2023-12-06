@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UsersDto {
   @IsNotEmpty()
@@ -25,10 +25,10 @@ export class UsersDto {
   password: string;
 
   @IsNotEmpty()
-  level: number;
+  level: number | string;
 
   @IsNotEmpty()
-  role: number;
+  role: number | string;
 }
 
 export class UsersInfoDto {
@@ -52,10 +52,10 @@ export class UsersInfoDto {
   email: string;
 
   @IsNotEmpty()
-  level: number;
+  level: number | string;
 
   @IsNotEmpty()
-  role: number;
+  role: number | string;
 }
 
 export class UsersPasswordDto {
@@ -69,9 +69,11 @@ export class UsersPasswordDto {
 }
 
 export class FilterUsersDto {
+  @IsOptional()
   @IsString()
   searchkey: string;
 
+  @IsOptional()
   @IsString()
-  searchRole: string;
+  searchRole?: string;
 }
