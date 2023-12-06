@@ -57,6 +57,6 @@ async function bootstrap() {
   });
 
   await app.listen(process.env.PORT);
-  console.log('🚀 Server started at' + process.env.URL_BACK);
+  console.log('🚀 Server started at ' + process.env.URL_BACK);
 }
 bootstrap();

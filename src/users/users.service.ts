@@ -205,7 +205,7 @@ export class UsersService {
         },
       });
 
-      if (userPhone && userPhone.phone !== dto.phone)
+      if (userPhone && (userPhone.slug !== slug))
         throw new ForbiddenException(
           'Ce numéro de téléphone appartient déjà à un utilisateur',
         );
@@ -216,7 +216,7 @@ export class UsersService {
         },
       });
 
-      if (userEmail && userEmail.email !== dto.email)
+      if (userEmail && (userEmail.slug !== slug))
         throw new ForbiddenException(
           'Cet email appartient déjà à un utilisateur',
         );
